@@ -86,11 +86,11 @@
   <body>
     <h1>PDF Unlocker</h1>
     <form method="post" enctype="multipart/form-data">
-      <div>
-        <label for="folder_path">Copy in the file path containing PDF files:</label>
-        <input type="text" id="folder_path" name="folder_path"  webkitdirectory directory required placeholder="e.g C:\Users\j.miller\Documents\PDFs" >
-      </div>
-      <button type="submit">Unlock PDFs</button>
+        <div>
+          <label for="pdf_files">Select PDF files to unlock:</label>
+          <input type="file" id="pdf_files" name="pdf_files" multiple accept=".pdf" required>
+        </div>
+        <button type="submit">Unlock PDFs</button>
     </form>
 
     {% with messages = get_flashed_messages() %}
@@ -104,7 +104,7 @@
     {% endwith %}
 
     {% if unlocked_files %}
-    <div>
+    <div class="download-list">
       <h2>Unlocked PDF files:</h2>
       <ul>
         {% for filename in unlocked_files %}
