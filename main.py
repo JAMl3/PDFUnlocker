@@ -1,18 +1,19 @@
 import os
 import PyPDF2
-from flask import Flask, render_template, request, flash, redirect, send_from_directory
+from flask import Flask, render_template, request, flash, redirect, send_from_directory #send from directory isn't used here I dont think
 from werkzeug.utils import secure_filename
-from flask import send_file
+from flask import send_file # can this be loaded above where we're importing from flask already?
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'Secret!123'
+app.config['SECRET_KEY'] = 'Secret!123' # try use a .env file so secrets aren't hard coded.
 
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
     if request.method == 'POST':
+        #Everything in here could be put in a python object that is specific to POST requests, this is good for seperation of concerns. More: https://en.wikipedia.org/wiki/Single_responsibility_principle
         unlocked_files = []
-
+        
         # Loop through each uploaded file
         for uploaded_file in request.files.getlist('pdf_files'):
             if uploaded_file.filename == '':
@@ -26,9 +27,11 @@ def home():
             # Check if the file is a PDF
             if filename.lower().endswith('.pdf'):
                 # Open the password-protected PDF file
+                # NOTE: Maybe add a try catch here to handle exceptions
+                # NOTE2: try to use 'with' when opening files so it's closed in case of error / edge case. This will make sure pythons lock on the file is removed.
                 pdf_file = open(filepath, 'rb')
                 pdf_reader = PyPDF2.PdfFileReader(pdf_file)
-
+                
                 # Create a new PDF writer object
                 pdf_writer = PyPDF2.PdfFileWriter()
 
