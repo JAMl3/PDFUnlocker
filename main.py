@@ -1,7 +1,7 @@
 import os
 import PyPDF2
 from flask import Flask, render_template, request, flash, redirect, send_from_directory #send from directory isn't used here I dont think
-from werkzeug.utils import secure_filename
+from werkzeug.utils import secure_filename # do we need to add this to requirements.txt? idk
 from flask import send_file # can this be loaded above where we're importing from flask already?
 
 app = Flask(__name__)
@@ -48,6 +48,7 @@ def home():
                 pdf_writer.write(output_file)
 
                 # Close the file objects
+                #Note: isnt needed if we did with
                 pdf_file.close()
                 output_file.close()
 
